@@ -82,10 +82,10 @@
                     callback.call(this); //trigger callback
                 }
             });
-
-            /** Ready to capture **/
-            $(el).focus();
         });
+
+        /** Ready to capture **/
+        $(document).focus();
     };
 })
 (jQuery);
