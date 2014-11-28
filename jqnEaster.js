@@ -1,8 +1,17 @@
 /**
- * jqnEaster plugin for jQuery v0.1
+ * jqnEaster v0.1.1 Plugin for jQuery
  * Created by nquocnghia
- * Released under MIT license.
+ *
+ * Allows the programmer to hide some easter eggs, e.g. Konami code, on the website.
+ *
+ * The plugin's default behavior can be configured with the parameters:
+ *
+ * - keySequence (Array of Strings): The sequence of input key that triggers the callback
+ * - callback (Function)
+ *
+ * Released under the terms of the MIT license.
  */
+
 (function ($) {
     $.fn.jqnEaster = function (options) {
         /** Main code **/
@@ -14,11 +23,12 @@
             alert("Callback triggered!");
         };
 
-        var keySequence, keyCodeSequence, callback, counter;
+        var keySequence, keyCodeSequence, callback, counter, isTriggered;
 
         keySequence = (typeof options.keySequence != "undefined" && $.isArray(options.keySequence)) ? options.keySequence : DEFAULT_KEY_SEQUENCE;
         callback = (typeof options.callback == "function") ? options.callback : DEFAULT_CALLBACK;
         counter = 0;
+        isTriggered = false;
 
         /** Convert every key in the seq to its keyCode **/
         keyCodeSequence = [];
@@ -51,23 +61,31 @@
             return false;
         }
 
-        /** Event binding **/
-        $(document).on("keyup", function (e) {
-            var code = e.keyCode || e.which;
-            if (keyCodeSequence[counter] == code) {
-                counter++
-            } else {
-                counter = 0;
-            }
+        /** For each selected element**/
+        this.each(function(i, el){
 
-            if (counter == keyCodeSequence.length) {
-                counter = 0;
-                callback.call(this); //trigger callback
-            }
+            /** Event binding **/
+            $(el).on("keyup", function (e) {
+                //if the code is already activated
+                if (isTriggered) return false;
+
+                var code = e.keyCode || e.which;
+                if (keyCodeSequence[counter] == code) {
+                    counter++
+                } else {
+                    counter = 0;
+                }
+
+                if (counter == keyCodeSequence.length) {
+                    counter = 0;
+                    isTriggered = true;
+                    callback.call(this); //trigger callback
+                }
+            });
+
+            /** Ready to capture **/
+            $(el).focus();
         });
-
-        /** Ready to capture **/
-        $(document).focus();
     };
 })
 (jQuery);
