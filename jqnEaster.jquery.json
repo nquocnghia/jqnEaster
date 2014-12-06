@@ -1,0 +1,23 @@
+{
+  "name": "jqnEaster",
+  "version": "0.1.1",
+  "title":"jqnEaster",
+  "description": "Hide some easter eggs on your site",
+  "author": {
+    "name": "nquocnghia",
+    "email": "nquocnghia@gmail.com",
+    "url": "http://github.com/nquocnghia"
+  },
+  "licenses":[{
+    "type": "MIT",
+    "url": "http://opensource.org/licenses/MIT"
+  }],
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "keywords": [
+    "easter egg",
+    "konami code"
+  ],
+  "homepage": "http://github.com/nquocnghia/jqnEaster"
+}
